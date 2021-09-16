@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="lib/vuemin.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="rendererStyle.css">
+  </head>
+  <body>
+    <div id="app" :class = "{'app':true}">
+  <p>{{ message }}</p>
+  <canvas id="canvas" width="512" height="384" style="border:1px solid #000000;"></canvas>
+</div>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue.js!'
+  }
+})
+
+</script>
+  </body>
+
+</html>
