@@ -10,18 +10,33 @@
   <body>
     <div id="app" :class = "{'app':true}">
   <p>{{ message }}</p>
-  <canvas id="canvas" width="512" height="384" style="border:1px solid #000000;"></canvas>
+  <canvas id="canvas" :width="canvasWidth" :height="canvasHeight" :class = "{'canvas':true}"></canvas>
 </div>
 
-<script>
-new Vue({
-  el: '#app',
-  data: {
-    message: 'Hello Vue.js!'
-  }
-})
-
-</script>
   </body>
 
+  <script>
+  new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello Vue.js!',
+      canvasWidth: 512,
+      canvasHeight: 384
+    }
+  })
+
+  </script>
+  <script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext('2d');
+    var imageData = context.createImageData(512, 384);
+
+    for (var i = 0; i <imageData.length; i+=4)
+    {
+      imageData[i] = 255;
+      imageData[i +3] = 100;
+    }
+    context.putImageData(imageData, 0,0);
+
+  </script>
 </html>
