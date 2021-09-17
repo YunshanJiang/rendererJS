@@ -1,0 +1,4 @@
+
+var device = function device(){
+  
+}
