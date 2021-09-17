@@ -16,7 +16,7 @@
   </body>
 
   <script>
-  new Vue({
+  var vue = new Vue({
     el: '#app',
     data: {
       message: 'Hello Vue.js!',
@@ -29,14 +29,25 @@
   <script>
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext('2d');
-    var imageData = context.createImageData(512, 384);
-
-    for (var i = 0; i <imageData.length; i+=4)
+    var imageData = context.getImageData(0,0,vue._data.canvasWidth, vue._data.canvasHeight);
+      var frame = 1000/30;
+      var color = 0;
+      //console.log(frame);
+      setInterval(function(){ 
+         for (var i = 0; i <imageData.data.length; i+=4)
     {
-      imageData[i] = 255;
-      imageData[i +3] = 100;
+      imageData.data[i] = 255;
+       imageData.data[i + 1] = 255;
+        imageData.data[i + 2] = 0;
+      imageData.data[i +3] = 255;
+        
     }
-    context.putImageData(imageData, 0,0);
+         
+    context.putImageData(imageData, 0,0); 
+      }, 
+                  
+    frame);
+    
 
   </script>
 </html>
