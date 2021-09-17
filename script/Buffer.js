@@ -1,4 +1,4 @@
 var Buffer = function Buffer(){
-  var m_BUFFER = null;
-  var m_BUFFER_DESC = null;
+  this.m_BUFFER = null;
+  this.m_BUFFER_DESC = null;
 }

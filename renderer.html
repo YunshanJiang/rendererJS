@@ -26,16 +26,16 @@
   })
 
   </script>
-  <script src="script/Buffer.js"></script>
+  <script src="script/Device.js"></script>
   <script>
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext('2d');
     var imageData = context.getImageData(0,0,vue._data.canvasWidth, vue._data.canvasHeight);
       var frame = 1000/30;
-      var color = 0;
-      var frameBuffer = new Buffer();
-      frameBuffer.m_BUFFER = new Uint8ClampedArray([255]);
-      console.log(frameBuffer.m_BUFFER);
+      var device = new Device();
+      var frameBuffer = device.CreateBuffer(vue._data.canvasWidth * vue._data.canvasHeight * 4);
+
+console.log(frameBuffer.m_BUFFER);
       setInterval(function(){
          for (var i = 0; i <imageData.data.length; i+=4)
     {
