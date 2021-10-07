@@ -6,10 +6,16 @@ var Device = function Device(){
 
     return buffer;
   }
+  
+  this.createRenderTargetView = function(frameBuffer){
+      return frameBuffer.m_BUFFER;
+  }
   this.CreateVertexShader = function(){
 
   }
   this.CreatePixelShader = function(){
     
   }
+  
+  
 }

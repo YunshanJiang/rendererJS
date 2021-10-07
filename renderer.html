@@ -27,26 +27,37 @@
 
   </script>
   <script src="script/Device.js"></script>
+    <script src="script/SwapChain.js"></script>
+    <script src="script/Math.js"></script>
   <script>
-    var canvas = document.getElementById("canvas");
-    var context = canvas.getContext('2d');
-    var imageData = context.getImageData(0,0,vue._data.canvasWidth, vue._data.canvasHeight);
+      var vectortest = new Vector3(1,2,3);
+      var vectortest2 = new Vector3(1,3,4);
+      var cameraPosition = new Vector3(0,0,0);
       var frame = 1000/30;
-      var device = new Device();
+      var swapChain = new SwapChain();
+      var device = swapChain.createDevice();
+      var deviceContext = swapChain.createContext();
       var frameBuffer = device.CreateBuffer(vue._data.canvasWidth * vue._data.canvasHeight * 4);
-
-console.log(frameBuffer.m_BUFFER);
+      swapChain.getBuffer(frameBuffer,vue._data.canvasWidth,vue._data.canvasHeight);
+      var renderTargetView = device.createRenderTargetView(frameBuffer);
+      var viewport = {
+          startWidth:0,
+          endWidth:vue._data.canvasWidth,
+          startHeight:0,
+          endHeight:vue._data.canvasHeight,
+          canvasWidth: vue._data.canvasWidth,
+          canvasHeight: vue._data.canvasHeight,
+      }
+      
+      deviceContext.setViewport(viewport);
+      deviceContext.setRenderTargetView(renderTargetView);
+       var s1 = new Vector2(0, 0);
+      var s2 = new Vector2(512, 384);
       setInterval(function(){
-         for (var i = 0; i <imageData.data.length; i+=4)
-    {
-      imageData.data[i] = 255;
-       imageData.data[i + 1] = 255;
-        imageData.data[i + 2] = 0;
-      imageData.data[i +3] = 255;
-
-    }
-
-    context.putImageData(imageData, 0,0);
+         deviceContext.clear();  
+          deviceContext.drawLine(s2, s1);
+        swapChain.present();
+    
       },
 
     frame);
