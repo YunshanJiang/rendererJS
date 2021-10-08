@@ -29,14 +29,36 @@
   <script src="script/Device.js"></script>
     <script src="script/SwapChain.js"></script>
     <script src="script/Math.js"></script>
+    <script src="script/Camera.js"></script>
   <script>
-      var vectortest = new Vector3(1,2,3);
-      var vectortest2 = new Vector3(1,3,4);
-      var cameraPosition = new Vector3(0,0,0);
+      var vectortest = new Vector3(0,0,0);
+      var vectortest2 = new Vector3(1,0,0);
+      var vectortest3 = new Vector3(0,-1,0);
+      var vectortest4 = new Vector3(1,0,0);
+      var vectortest5 = new Vector3(1,-1,0);
+      var vectortest6 = new Vector3(0,-1,0);
+      
+      var vectortest7 = new Vector3(0,0,0);
+      var vectortest8 = new Vector3(0,0,1);
+      var vectortest9 = new Vector3(1,0,1);
+      var camera = new Camera(vue._data.canvasWidth/ vue._data.canvasHeight);
+      var verties = [vectortest,
+                     vectortest2,
+                     vectortest3,
+                     vectortest4,
+                     vectortest5,
+                     vectortest6,
+                     vectortest7,
+                     vectortest8,
+                     vectortest9,
+                    ];
       var frame = 1000/30;
       var swapChain = new SwapChain();
       var device = swapChain.createDevice();
       var deviceContext = swapChain.createContext();
+      var vertexSahder = device.createVertexShader();
+      var pixelSahder = device.createPixelShader();
+      vertexSahder.camera = camera;
       var frameBuffer = device.CreateBuffer(vue._data.canvasWidth * vue._data.canvasHeight * 4);
       swapChain.getBuffer(frameBuffer,vue._data.canvasWidth,vue._data.canvasHeight);
       var renderTargetView = device.createRenderTargetView(frameBuffer);
@@ -51,11 +73,27 @@
       
       deviceContext.setViewport(viewport);
       deviceContext.setRenderTargetView(renderTargetView);
+      deviceContext.setVertexShader(vertexSahder);
+      deviceContext.setPixelShader(pixelSahder);
+      
+      
        var s1 = new Vector2(0, 0);
       var s2 = new Vector2(512, 384);
+      var outputVerties = [];
       setInterval(function(){
          deviceContext.clear();  
-          deviceContext.drawLine(s2, s1);
+          //deviceContext.drawLine(screenCoordate, screenCoordate2);
+          
+          for (var i = 0; i < verties.length; i++)
+              {
+                  
+                  var screenCoordate = screenSpace(vue._data.canvasWidth, vue._data.canvasHeight, vertexSahder.vert(verties[i]));
+                  outputVerties[i] = screenCoordate;
+              }
+          
+          deviceContext.drawTriangle(outputVerties);
+          //camera.cameraPosition = camera.cameraPosition.add(new Vector3(0,0.01,0));
+          //console.log(vertexSahder.camera.cameraPosition);
         swapChain.present();
     
       },

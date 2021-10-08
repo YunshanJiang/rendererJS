@@ -1,6 +1,8 @@
 var Context = function Context(){
   this.renderTargetView = null;  
-  this,viewport = null;
+  this.viewport = null;
+  this.vertexShader = null;
+  this.pixelShader = null;
   this.setRenderTargetView = function(renderTargetView){
       this.renderTargetView = renderTargetView;
   }
@@ -46,5 +48,23 @@ var Context = function Context(){
               startX = startX + dx;
               startY = startY + dy;
           }
+  }
+  
+  this.drawTriangle = function(verties){
+      //console.log(verties);
+      for (var i = 0; i < verties.length; i+=3)
+          {
+      this.drawLine(verties[i], verties[i+1]);
+      this.drawLine(verties[i+1], verties[i+2]);
+      this.drawLine(verties[i+2], verties[i]);
+          }
+}
+    
+  this.setVertexShader = function(vertexShader){
+      this.vertexShader = vertexShader;
+  }
+  
+  this.setPixelShader = function(pixelShader){
+      this.pixelShader = pixelShader;
   }
 }

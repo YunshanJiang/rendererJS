@@ -1,4 +1,6 @@
 document.write("<script src='script/Buffer.js'></script>");
+document.write("<script src='script/VertexShader.js'></script>");
+document.write("<script src='script/PixelShader.js'></script>");
 var Device = function Device(){
   this.CreateBuffer = function(byteWidth){
     var buffer = new Buffer();
@@ -10,11 +12,11 @@ var Device = function Device(){
   this.createRenderTargetView = function(frameBuffer){
       return frameBuffer.m_BUFFER;
   }
-  this.CreateVertexShader = function(){
-
+  this.createVertexShader = function(){
+  return new VertexShader();
   }
-  this.CreatePixelShader = function(){
-    
+  this.createPixelShader = function(){
+    return new PixelShader();
   }
   
   
