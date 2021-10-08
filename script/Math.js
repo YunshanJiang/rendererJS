@@ -254,9 +254,9 @@ function lookAt(eye, target, up){
     var xaxis = up.cross(zaxis).normalize();
     var yaxis = zaxis.cross(xaxis);
     var viewMatrix = 
-    [xaxis.x,   yaxis.x,   zaxis.x, -xaxis.dot(eye),
-     xaxis.y,   yaxis.y,   zaxis.y, -yaxis.dot(eye),
-     xaxis.z, yaxis.z,   zaxis.z, -zaxis.dot(eye),
+    [xaxis.x,   xaxis.y,   xaxis.z, -xaxis.dot(eye),
+     yaxis.x,   yaxis.y,   yaxis.z, -yaxis.dot(eye),
+     zaxis.x,   zaxis.y,   zaxis.z, -zaxis.dot(eye),
      0,         0,         0,       1,
     ];
    // console.log(zaxis);
