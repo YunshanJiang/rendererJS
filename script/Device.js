@@ -1,9 +1,12 @@
 document.write("<script src='script/Buffer.js'></script>");
+document.write("<script src='script/Vertex.js'></script>");
 document.write("<script src='script/VertexShader.js'></script>");
 document.write("<script src='script/PixelShader.js'></script>");
 var Device = function Device(){
+   
   this.CreateBuffer = function(byteWidth){
     var buffer = new Buffer();
+    
     buffer.m_BUFFER = new Uint8ClampedArray(byteWidth);
 
     return buffer;
@@ -18,6 +21,5 @@ var Device = function Device(){
   this.createPixelShader = function(){
     return new PixelShader();
   }
-  
   
 }

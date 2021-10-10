@@ -1,3 +1,4 @@
+
 var Vector2 = function Vector2(x = 0, y = 0)
 {
   this.x = x;
@@ -280,7 +281,7 @@ function projection(fovAngle, aspectRatio, near, far){
 }
 
 function NDC(vector4){
-    if (w != 0)
+    if (vector4.w != 0)
         return new Vector3(vector4.x/vector4.w, vector4.y/vector4.w, vector4.z/vector4.w);
     return null;
 }
@@ -288,6 +289,20 @@ function NDC(vector4){
 function screenSpace(screenWidth, screenHeight, vector3){
     var x = (vector3.x + 1) * screenWidth/2;
     var y = (1 - vector3.y) * screenHeight/2;
-    return new Vector2(x, y);
+    return new Vector3(x, y,vector3.z);
 }
 
+function lerpNumber(number1, number2, value){
+    return number1 + (number2 - number1) * value; 
+}
+
+function lerpVector3(vector1, vector2, value){
+    var x = lerpNumber(vector1.x, vector2.x, value);
+    var y = lerpNumber(vector1.y, vector2.y, value);
+    var z = lerpNumber(vector1.z, vector2.z, value);
+    return new Vector3(x,y,z);
+}
+
+
+Math.width = 512;
+Math.height = 384;

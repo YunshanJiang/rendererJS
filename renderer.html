@@ -14,45 +14,40 @@
 </div>
 
   </body>
-
+     <script src="script/Device.js"> console.log(1);</script>
+    <script src="script/SwapChain.js"></script>
+    <script src="script/Math.js"></script>
+    <script src="script/Camera.js"></script>
+    <script src="script/Vertex.js"></script>
+    
   <script>
   var vue = new Vue({
     el: '#app',
     data: {
       message: 'Hello Vue.js!',
-      canvasWidth: 512,
-      canvasHeight: 384
+      canvasWidth: Math.width,
+      canvasHeight: Math.height
     }
   })
-
   </script>
-  <script src="script/Device.js"></script>
-    <script src="script/SwapChain.js"></script>
-    <script src="script/Math.js"></script>
-    <script src="script/Camera.js"></script>
-    <script src="script/Vertex.js"></script>
+   
+    
   <script>
-      var vectortest = new Vector3(0,0,0);
-      var vectortest2 = new Vector3(1,0,0);
-      var vectortest3 = new Vector3(0,-1,0);
-      var vectortest4 = new Vector3(1,0,0);
-      var vectortest5 = new Vector3(1,-1,0);
-      var vectortest6 = new Vector3(0,-1,0);
-      
-      var vectortest7 = new Vector3(0,0,0);
-      var vectortest8 = new Vector3(0,0,1);
-      var vectortest9 = new Vector3(1,0,1);
       var camera = new Camera(vue._data.canvasWidth/ vue._data.canvasHeight);
-      var verties = [vectortest,
-                     vectortest2,
-                     vectortest3,
-                     vectortest4,
-                     vectortest5,
-                     vectortest6,
-                     vectortest7,
-                     vectortest8,
-                     vectortest9,
+      var verties = [new Vertex(0,0,0,1,0,0),
+                     new Vertex(1,0,0,1,0,0),
+                     new Vertex(0.5,-1,0,1,0,0),
+                     new Vertex(1,0,0,1,0,0),
+                     new Vertex(1,-1,0,1,0,0),
+                     new Vertex(0,-1,0,1,0,0),
+                     new Vertex(0,0,0,1,0,0),
+                     new Vertex(0,0,1,1,0,0),
+                     new Vertex(1,0,1,1,0,0),
                     ];
+      var indexBuffer = [0,1,2,
+                  // 3,4,5,
+                  // 6,7,8,
+                  ];
       var frame = 1000/30;
       var swapChain = new SwapChain();
       var device = swapChain.createDevice();
@@ -85,14 +80,17 @@
          deviceContext.clear();  
           //deviceContext.drawLine(screenCoordate, screenCoordate2);
           
-          for (var i = 0; i < verties.length; i++)
+          for (var i = 0; i < indexBuffer.length; i++)
               {
+                  var index = indexBuffer[i];
+                  var vertexOut = vertexSahder.vert(verties[index]);
                   
-                  var screenCoordate = screenSpace(vue._data.canvasWidth, vue._data.canvasHeight, vertexSahder.vert(verties[i]));
-                  outputVerties[i] = screenCoordate;
+                  
+                  outputVerties[i] = vertexOut;
               }
           
-          deviceContext.drawTriangle(outputVerties);
+         // deviceContext.drawTrianglesLineMode(outputVerties);
+          deviceContext.drawTrianglesFace(outputVerties);
           //camera.cameraPosition = camera.cameraPosition.add(new Vector3(0,0.01,0));
           //console.log(vertexSahder.camera.cameraPosition);
         swapChain.present();
