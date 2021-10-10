@@ -24,6 +24,10 @@ var Context = function Context(){
     }
   }
   this.drawLine = function(vector1, vector2){
+      if (vector1 != null && vector2 != null)
+          {
+              
+          
       var dx = vector2.x - vector1.x;
       var dy = vector2.y - vector1.y;
       
@@ -48,12 +52,14 @@ var Context = function Context(){
               startX = startX + dx;
               startY = startY + dy;
           }
+          }
   }
   
   this.drawTriangle = function(verties){
       //console.log(verties);
       for (var i = 0; i < verties.length; i+=3)
           {
+            
       this.drawLine(verties[i], verties[i+1]);
       this.drawLine(verties[i+1], verties[i+2]);
       this.drawLine(verties[i+2], verties[i]);

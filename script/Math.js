@@ -280,7 +280,9 @@ function projection(fovAngle, aspectRatio, near, far){
 }
 
 function NDC(vector4){
-    return new Vector3(vector4.x/vector4.w, vector4.y/vector4.w, vector4.z/vector4.w);
+    if (w != 0)
+        return new Vector3(vector4.x/vector4.w, vector4.y/vector4.w, vector4.z/vector4.w);
+    return null;
 }
 
 function screenSpace(screenWidth, screenHeight, vector3){
