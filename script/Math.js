@@ -293,6 +293,7 @@ function screenSpace(screenWidth, screenHeight, vector3){
 }
 
 function lerpNumber(number1, number2, value){
+    //console.log(number1, number2);
     return number1 + (number2 - number1) * value; 
 }
 
@@ -300,6 +301,7 @@ function lerpVector3(vector1, vector2, value){
     var x = lerpNumber(vector1.x, vector2.x, value);
     var y = lerpNumber(vector1.y, vector2.y, value);
     var z = lerpNumber(vector1.z, vector2.z, value);
+    //console.log(z);
     return new Vector3(x,y,z);
 }
 
