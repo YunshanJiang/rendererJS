@@ -42,7 +42,7 @@ var SwapChain = function SwapChain(){
                 
             }
     }*/
-              //console.log(this.frameBuffer);
+             // console.log(this.frameBuffer[353308]);
               context.putImageData(imageData, 0,0);
           }
   }

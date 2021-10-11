@@ -36,20 +36,22 @@
       var camera = new Camera(vue._data.canvasWidth/ vue._data.canvasHeight);
       var verties = [new Vertex(0,0,0,1,0,0),
                      new Vertex(1,0,0,1,0,0),
-                     new Vertex(0,-1,0,0,0,1),
+                     new Vertex(0,-1,0,1,0,0),
                      new Vertex(1,-1,0,1,0,0),
-                     new Vertex(0,0,1,1,0,0),
-                     new Vertex(1,0,1,1,0,0),
+                     new Vertex(0,0,1,0,1,0),
+                     new Vertex(1,0,1,0,0,1),
                      new Vertex(1,-1,1,1,0,0),
                     ];
      
       var indexBuffer = [0,1,2,
-                   //1,2,3,
-                  // 0,4,5,
-                   //0,5,1,
-                   //3,1,5,
-                   //3,5,6,
+                   1,2,3,
+                   0,4,5,
+                   0,5,1,
+                   3,1,5,
+                   3,5,6,
                   ];
+     
+      console.log(verties[1].position);
       var frame = 1000/30;
       var swapChain = new SwapChain();
       var device = swapChain.createDevice();
@@ -77,23 +79,31 @@
       deviceContext.setPixelShader(pixelSahder);
       deviceContext.setZBuffer(zBuffer);
       var outputVerties = [];
+      var rotationRadian = 0;
       setInterval(function(){
          deviceContext.clear();  
           //deviceContext.drawLine(screenCoordate, screenCoordate2);
+         // rotationRadian+= 0.01;
+          for (var i = 0; i < verties.length; i++){
+              var newPosition = rotateMatrixZ(0.01).timeMatrix(rotateMatrixY(0.01)).timeVector3OutV3(verties[i].position);
+              verties[i].position = new Vector3(newPosition.x, newPosition.y, newPosition.z);
+          }
           
           for (var i = 0; i < indexBuffer.length; i++)
               {
                   var index = indexBuffer[i];
+                  
+                  
                   var vertexOut = vertexSahder.vert(verties[index]);
                   
                   
                   outputVerties[i] = vertexOut;
                   
               }
-          
-         // deviceContext.drawTrianglesLineMode(outputVerties);
+           
+          //deviceContext.drawTrianglesLineMode(outputVerties);
           deviceContext.drawTrianglesFace(outputVerties);
-         // camera.cameraPosition = camera.cameraPosition.add(new Vector3(0.01,0,0));
+         //camera.cameraPosition = camera.cameraPosition.add(new Vector3(0.01,0.01,0));
           //console.log(vertexSahder.camera.cameraPosition);
         swapChain.present();
     

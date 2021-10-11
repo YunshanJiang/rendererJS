@@ -163,7 +163,6 @@ var Matrix4x4 = function(m = []){
               this._41, this._42, this._43, this._44];
 }
  Matrix4x4.prototype.timeMatrix = function(matrix4x4){
-        console.log(matrix4x4);
         var resultMatrix = new Matrix4x4();
         resultMatrix._11 = this._11 * matrix4x4._11 + this._12 * matrix4x4._21 + this._13 * matrix4x4._31 + this._14 * matrix4x4._41;
         resultMatrix._12 = this._11 * matrix4x4._12 + this._12 * matrix4x4._22 + this._13 * matrix4x4._32 + this._14 * matrix4x4._42;
@@ -186,13 +185,23 @@ var Matrix4x4 = function(m = []){
         resultMatrix._44 = this._41 * matrix4x4._14 + this._42 * matrix4x4._24 + this._43 * matrix4x4._34 + this._44 * matrix4x4._44;
         return resultMatrix;
     }
-    Matrix4x4.prototype.timeVector3 = function(vector3){
+    Matrix4x4.prototype.timeVector3OutV4 = function(vector3){
         var t_x = this._11 * vector3.x + this._12 * vector3.y + this._13 * vector3.z + this._14 * 1;
         var t_y = this._21 * vector3.x + this._22 * vector3.y + this._23 * vector3.z + this._24 * 1;
         var t_z = this._31 * vector3.x + this._32 * vector3.y + this._33 * vector3.z + this._34 * 1;
         var t_w = this._41 * vector3.x + this._42 * vector3.y + this._43 * vector3.z + this._44 * 1;
         return new Vector4(t_x, t_y,t_z, t_w);
     }
+    
+    Matrix4x4.prototype.timeVector3OutV3 = function(vector3){
+        var t_x = this._11 * vector3.x + this._12 * vector3.y + this._13 * vector3.z + this._14 * 1;
+        var t_y = this._21 * vector3.x + this._22 * vector3.y + this._23 * vector3.z + this._24 * 1;
+        var t_z = this._31 * vector3.x + this._32 * vector3.y + this._33 * vector3.z + this._34 * 1;
+        var t_w = this._41 * vector3.x + this._42 * vector3.y + this._43 * vector3.z + this._44 * 1;
+        return new Vector4(t_x, t_y,t_z);
+    }
+    
+    
     Matrix4x4.prototype.timeVector4 = function(vector4){
         var t_x = this._11 * vector4.x + this._12 * vector4.y + this._13 * vector4.z + this._14 * vector4.w;
         var t_y = this._21 * vector4.x + this._22 * vector4.y + this._23 * vector4.z + this._24 * vector4.w;
@@ -210,7 +219,7 @@ function scaleMatrix(vector){
     return new Matrix4x4(scaleList);
 }
 
-function rotateMatrixz(radians){
+function rotateMatrixZ(radians){
     var rotateZList = 
     [Math.cos(radians), -Math.sin(radians), 0,        0,
      Math.sin(radians), Math.cos(radians),  0,        0,

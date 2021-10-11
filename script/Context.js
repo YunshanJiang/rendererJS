@@ -116,19 +116,19 @@ var Context = function Context(){
           var midLerpValue = (midY - Math.ceil(vertex1.position.y - 0.5)) / 
               (Math.ceil(vertex3.position.y - 0.5) - Math.ceil(vertex1.position.y - 0.5));
          var midVertexOut = lerpVertexOut(vertex1, vertex3, midLerpValue);
-         // console.log(midY);
-          if (vertex2.position.x > vertex3.position.x)
+          //console.log(vertex1,vertex2,vertex3);
+          if (midVertexOut.position.x > vertex2.position.x)
               { 
                  
-                   this.drawBottomFlatTriangle(midVertexOut, vertex1, vertex2);
-                   this.drawTopFlatTriangle(midVertexOut, vertex3, vertex2);
+                   this.drawBottomFlatTriangle(vertex2, vertex1, midVertexOut);
+                   this.drawTopFlatTriangle(vertex2, vertex3, midVertexOut);
                   
               }
           else
           {
-              
-                   this.drawBottomFlatTriangle(vertex2, vertex1, midVertexOut);
-                   this.drawTopFlatTriangle(vertex2, vertex3, midVertexOut);
+             // console.log(vertex2,vertex3,midVertexOut);
+                   this.drawBottomFlatTriangle(midVertexOut, vertex1, vertex2);
+                   this.drawTopFlatTriangle(midVertexOut, vertex3, vertex2);
                   
           }
           
@@ -141,12 +141,13 @@ var Context = function Context(){
       var startY = Math.ceil(vertex3.position.y - 0.5);
       var endY = Math.ceil(vertex1.position.y - 0.5);
       //console.log(vertex1.color.rgb);
-     // console.log(vertex1.position.y, vertex2.position.x);
+    // console.log(vertex1.position.y, vertex2.position.x);
       if (startY == endY){
           this.drawScanLine(vertex1, vertex2);
-          //console.log(startY);
+         // console.log(startY);
           return;
       }
+
       for (var i = startY; i >= endY; i--)
           {
               
@@ -156,9 +157,10 @@ var Context = function Context(){
               //console.log(factor);
               this.drawScanLine(xl, xr);
           }
+          
   }
   this.drawBottomFlatTriangle = function(vertex2, vertex1, vertex3){
-      
+      //console.log(vertex2, vertex3);
       var startY = Math.ceil(vertex3.position.y - 0.5);
       var endY = Math.ceil(vertex1.position.y - 0.5);
        if (startY == endY){
@@ -166,13 +168,14 @@ var Context = function Context(){
           //console.log(startY);
           return;
       }
+
       for (var i = startY; i >= endY; i--)
           {
-             // console.log(i);
+              //console.log(i);
               var factor = (i - endY) / (startY - endY);
               var xl = lerpVertexOut(vertex1, vertex2, factor);
               var xr = lerpVertexOut(vertex1, vertex3, factor);
-              // console.log(xl, xr);
+             //  console.log(xl, xr);
               this.drawScanLine(xl, xr);
           }
   }
@@ -207,7 +210,7 @@ var Context = function Context(){
              renderTargetView[startBufferIndex + startX * 4 + 2] = Math.round(pixelColor.rgb.z);
              renderTargetView[startBufferIndex + startX * 4 + 3] = 255;
              zBuffer.m_BUFFER[startY * viewport.canvasWidth + startX] = startZ;
-                      console.log(i); 
+                     // console.log(startBufferIndex + startX * 4); 
                   }
               
                startX++;
