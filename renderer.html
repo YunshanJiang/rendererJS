@@ -11,6 +11,8 @@
     <div id="app" :class = "{'app':true}">
   <p>{{ message }}</p>
   <canvas id="canvas" :width="canvasWidth" :height="canvasHeight" :class = "{'canvas':true}"></canvas>
+<input type="file" id="file-input" >
+<div id="file-content"></div>
 </div>
 
   </body>
@@ -19,7 +21,7 @@
     <script src="script/Math.js"></script>
     <script src="script/Camera.js"></script>
     <script src="script/Vertex.js"></script>
-    
+    <script src="script/Model.js"></script>
   <script>
   var vue = new Vue({
     el: '#app',
@@ -34,13 +36,14 @@
     
   <script>
       var camera = new Camera(vue._data.canvasWidth/ vue._data.canvasHeight);
-      var verties = [new Vertex(0,0,0,1,0,0),
-                     new Vertex(1,0,0,1,0,0),
-                     new Vertex(0,-1,0,1,0,0),
-                     new Vertex(1,-1,0,1,0,0),
-                     new Vertex(0,0,1,0,1,0),
-                     new Vertex(1,0,1,0,0,1),
-                     new Vertex(1,-1,1,1,0,0),
+      var model = new Model("src/testFile");
+      var verties = [new Vertex(-0.5,0.5,-0.5,1,0,0),
+                     new Vertex(0.5,0.5,-0.5,1,0,0),
+                     new Vertex(-0.5,-0.5,-0.5,1,0,0),
+                     new Vertex(0.5,-0.5,-0.5,1,0,0),
+                     new Vertex(-0.5,0.5,0.5,0,1,0),
+                     new Vertex(0.5,0.5,0.5,0,0,1),
+                     new Vertex(0.5,-0.5,0.5,1,0,0),
                     ];
      
       var indexBuffer = [0,1,2,
@@ -51,14 +54,18 @@
                    3,5,6,
                   ];
      
-      console.log(verties[1].position);
+      var constantBuffer = {
+          camera: camera,
+          localOrigin: new Vector3(1.0, 0, 0),
+      }
       var frame = 1000/30;
       var swapChain = new SwapChain();
       var device = swapChain.createDevice();
       var deviceContext = swapChain.createContext();
       var vertexSahder = device.createVertexShader();
       var pixelSahder = device.createPixelShader();
-      vertexSahder.camera = camera;
+      
+      vertexSahder.constantBuffer = constantBuffer;
       var frameBuffer = device.CreateBuffer(vue._data.canvasWidth * vue._data.canvasHeight * 4);
       swapChain.getBuffer(frameBuffer,vue._data.canvasWidth,vue._data.canvasHeight);
       var zBuffer = device.CreateBuffer(vue._data.canvasWidth * vue._data.canvasHeight, "zBuffer");
@@ -84,8 +91,10 @@
          deviceContext.clear();  
           //deviceContext.drawLine(screenCoordate, screenCoordate2);
          // rotationRadian+= 0.01;
+          constantBuffer.localOrigin = translationMatrix(new Vector3(0, 1, 0)).timeVector3OutV3(constantBuffer.localOrigin);
+         // console.log(constantBuffer.localOrigin);
           for (var i = 0; i < verties.length; i++){
-              var newPosition = rotateMatrixZ(0.01).timeMatrix(rotateMatrixY(0.01)).timeVector3OutV3(verties[i].position);
+              var newPosition = rotateMatrixY(0.03).timeVector3OutV3(verties[i].position);
               verties[i].position = new Vector3(newPosition.x, newPosition.y, newPosition.z);
           }
           

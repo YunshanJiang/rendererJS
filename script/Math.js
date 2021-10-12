@@ -257,6 +257,10 @@ function translationMatrix(vector){
     return new Matrix4x4(translationList);
 }
 
+function localToWorld(localOrigin, localVector3){
+    var result = localOrigin.add(localVector3);
+    return result;
+}
 
 function lookAt(eye, target, up){
     
